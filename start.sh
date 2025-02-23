@@ -37,11 +37,6 @@ if [ ! -f "package.json" ] || [ ! -s "package.json" ]; then
     npm init -y
 fi
 
-# Asegurar que "type": "commonjs" está en package.json
-if ! grep -q '"type":' package.json; then
-    jq '. + {type: "commonjs"}' package.json > temp.json && mv temp.json package.json
-fi
-
 # Verificar si node_modules existe, si no, reinstalar dependencias
 if [ ! -d "node_modules" ]; then
     echo "📦 Instalando dependencias..."
@@ -69,12 +64,6 @@ PORT=3000
 EOL
 
     echo "⚠️  Se ha creado el archivo .env. 📌 **MODIFÍCALO MANUALMENTE** con tus credenciales antes de continuar."
-    exit 1
-fi
-
-# Validar que el archivo .env contiene credenciales válidas
-if [ "$AWS_ACCESS_KEY_ID" == "TU_AWS_ACCESS_KEY" ] || [ -z "$AWS_ACCESS_KEY_ID" ]; then
-    echo "❌ ERROR: El archivo .env aún tiene valores por defecto o está incompleto. Modifícalo antes de continuar."
     exit 1
 fi
 

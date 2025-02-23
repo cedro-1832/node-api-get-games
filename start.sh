@@ -14,7 +14,7 @@ fi
 NODE_VERSION=$(node -v | cut -d 'v' -f 2 | cut -d '.' -f 1)
 if [ "$NODE_VERSION" -ge 21 ]; then
     echo "⚠️  Advertencia: Estás usando Node.js v$NODE_VERSION. Se recomienda usar Node.js 18 o 20."
-
+    
     if command -v nvm &> /dev/null; then
         echo "🔄 Cambiando a Node.js 20 con NVM..."
         nvm install 20
@@ -47,6 +47,14 @@ fi
 
 # Limpiar caché de npm si hay errores previos
 npm cache clean --force
+
+# Verificar si el puerto 3000 está en uso y matar el proceso si es necesario
+PORT=3000
+if lsof -i:$PORT -t >/dev/null 2>&1; then
+    echo "⚠️  El puerto $PORT está en uso. Matando el proceso..."
+    kill -9 $(lsof -t -i:$PORT)
+    sleep 2
+fi
 
 # Cargar variables de entorno desde .env
 if [ -f ".env" ]; then

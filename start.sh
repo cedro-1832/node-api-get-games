@@ -37,7 +37,7 @@ if [ ! -f "package.json" ] || [ ! -s "package.json" ]; then
     npm init -y
 fi
 
-# Agregar "type": "commonjs" si no existe
+# Asegurar que "type": "commonjs" está en package.json
 if ! grep -q '"type":' package.json; then
     jq '. + {type: "commonjs"}' package.json > temp.json && mv temp.json package.json
 fi
@@ -45,7 +45,7 @@ fi
 # Verificar si node_modules existe, si no, reinstalar dependencias
 if [ ! -d "node_modules" ]; then
     echo "📦 Instalando dependencias..."
-    npm install express aws-sdk dotenv jsonwebtoken bcryptjs helmet cors joi express-validator swagger-jsdoc swagger-ui-express nodemon
+    npm install
 else
     echo "✅ Dependencias ya instaladas."
 fi

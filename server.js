@@ -6,7 +6,7 @@ const cors = require('cors');
 
 // Importación correcta de rutas
 const gameRoutes = require('./routes/gameRoutes');
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./routes/authRoutes'); 
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./config/swagger');

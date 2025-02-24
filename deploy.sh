@@ -6,27 +6,57 @@ AWS_PROFILE="serverless-deployer"
 AWS_REGION="us-east-1"
 STACK_NAME="get-games-api"
 BUCKET_NAME="serverless-framework-deployments"
-IAM_ROLE="get-games-api-lambda-role"
+IAM_ROLE_NAME="get-games-api-lambda-role"
 FUNCTION_NAME="get-games"
 DEPLOY_DIR="dist"
 
-echo "🚀 [1/7] Iniciando despliegue de la API Get Games en AWS..."
+echo "🚀 [1/8] Iniciando despliegue de la API Get Games en AWS..."
 
-# 🛠️ [2/7] Instalar dependencias si es necesario
+# 🛠️ [2/8] Instalar dependencias si es necesario
 echo "📦 Instalando dependencias..."
 npm install
 
-# 🏗️ [3/7] Construir la aplicación si es necesario
+# 🏗️ [3/8] Construir la aplicación si es necesario
 echo "🔧 Construyendo el proyecto..."
 rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR"
 cp -r server.js package.json node_modules "$DEPLOY_DIR"
 
-# 📤 [4/7] Empaquetar código para AWS Lambda
+# 📤 [4/8] Empaquetar código para AWS Lambda
 echo "📤 Empaquetando código para AWS Lambda..."
 zip -r "$DEPLOY_DIR/$FUNCTION_NAME.zip" "$DEPLOY_DIR"
 
-# 🔍 [5/7] Verificar si la función Lambda ya existe
+# 🔍 [5/8] Verificar si el IAM Role existe, si no, crearlo
+echo "🔍 Verificando si el IAM Role $IAM_ROLE_NAME existe..."
+if ! aws iam get-role --role-name "$IAM_ROLE_NAME" --profile "$AWS_PROFILE" &>/dev/null; then
+    echo "🚀 Creando IAM Role para Lambda..."
+    aws iam create-role --role-name "$IAM_ROLE_NAME" \
+        --assume-role-policy-document '{
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": { "Service": "lambda.amazonaws.com" },
+                    "Action": "sts:AssumeRole"
+                }
+            ]
+        }' \
+        --profile "$AWS_PROFILE" --region "$AWS_REGION"
+
+    # Asignar permisos al role
+    aws iam attach-role-policy --role-name "$IAM_ROLE_NAME" \
+        --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole \
+        --profile "$AWS_PROFILE" --region "$AWS_REGION"
+    
+    echo "✅ IAM Role creado y configurado."
+else
+    echo "✅ IAM Role ya existe."
+fi
+
+# 🔍 Obtener ARN del role
+IAM_ROLE_ARN=$(aws iam get-role --role-name "$IAM_ROLE_NAME" --query 'Role.Arn' --output text --profile "$AWS_PROFILE")
+
+# 🔍 [6/8] Verificar si la función Lambda ya existe
 echo "🔍 Verificando si la función Lambda $FUNCTION_NAME existe en AWS..."
 if aws lambda get-function --function-name "$FUNCTION_NAME" --profile "$AWS_PROFILE" --region "$AWS_REGION" &>/dev/null; then
     echo "📤 Actualizando código de la función Lambda..."
@@ -37,7 +67,7 @@ else
     echo "🚀 Creando nueva función Lambda..."
     aws lambda create-function --function-name "$FUNCTION_NAME" \
         --runtime "nodejs20.x" \
-        --role "arn:aws:iam::$(aws sts get-caller-identity --query Account --output text):role/$IAM_ROLE" \
+        --role "$IAM_ROLE_ARN" \
         --handler "server.handler" \
         --zip-file "fileb://$DEPLOY_DIR/$FUNCTION_NAME.zip" \
         --timeout 15 \
@@ -47,11 +77,11 @@ fi
 
 echo "✅ Función Lambda lista."
 
-# 🔥 [6/7] Desplegar API Gateway con Serverless Framework
+# 🔥 [7/8] Desplegar API Gateway con Serverless Framework
 echo "🌐 Desplegando API Gateway con Serverless..."
 serverless deploy --profile "$AWS_PROFILE"
 
-# 📌 [7/7] Obtener la URL del API Gateway
+# 📌 [8/8] Obtener la URL del API Gateway
 API_URL=$(aws apigateway get-rest-apis --profile "$AWS_PROFILE" --region "$AWS_REGION" \
     --query "items[?name=='$STACK_NAME'].id" --output text)
 

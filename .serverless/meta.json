@@ -15,6 +15,9 @@
             "Effect": "Allow",
             "Action": [
               "lambda:InvokeFunction",
+              "logs:CreateLogStream",
+              "logs:CreateLogGroup",
+              "logs:PutLogEvents",
               "dynamodb:Scan"
             ],
             "Resource": "*"
@@ -99,6 +102,9 @@
                           "Effect": "Allow",
                           "Action": [
                             "lambda:InvokeFunction",
+                            "logs:CreateLogStream",
+                            "logs:CreateLogGroup",
+                            "logs:PutLogEvents",
                             "dynamodb:Scan"
                           ],
                           "Resource": "*"
@@ -128,7 +134,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-3e2cf282-a30b",
-                  "S3Key": "serverless/get-games-api/dev/1740364449526-2025-02-24T02:34:09.526Z/get-games-api.zip"
+                  "S3Key": "serverless/get-games-api/dev/1740407344917-2025-02-24T14:29:04.917Z/get-games-api.zip"
                 },
                 "Handler": "server.handler",
                 "Runtime": "nodejs20.x",
@@ -151,7 +157,7 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-3e2cf282-a30b",
-                  "S3Key": "serverless/get-games-api/dev/1740364449526-2025-02-24T02:34:09.526Z/get-games-api.zip"
+                  "S3Key": "serverless/get-games-api/dev/1740407344917-2025-02-24T14:29:04.917Z/get-games-api.zip"
                 },
                 "Handler": "server.handler",
                 "Runtime": "nodejs20.x",
@@ -169,24 +175,24 @@
                 "AuthLoginLogGroup"
               ]
             },
-            "GetGamesLambdaVersion14XaOBySjrQjqjd5IWuoiby3PzIZViJzRrSuJq6HB0": {
+            "GetGamesLambdaVersionZA9UqDhNwH958ZuqpVIZ4OrMTEH0OGfq9C0HcCnE": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "GetGamesLambdaFunction"
                 },
-                "CodeSha256": "uUjgN7Q9tMIImDx98y7YESC7BDw2PhXpPc5kqo3oA2A="
+                "CodeSha256": "c/3L4fbEoxPTiTApI1NiTi9/+H9Zua0+7QFD7BTfDQI="
               }
             },
-            "AuthLoginLambdaVersion4Cj4OW6hLcDTa9vBPqECvNbQULPrxKtlgmblhsQFA": {
+            "AuthLoginLambdaVersionLc8KNGJPv6I3R9dqbb6lzs9lVetZh9nGqQvdbIdeSQ": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "AuthLoginLambdaFunction"
                 },
-                "CodeSha256": "uUjgN7Q9tMIImDx98y7YESC7BDw2PhXpPc5kqo3oA2A="
+                "CodeSha256": "c/3L4fbEoxPTiTApI1NiTi9/+H9Zua0+7QFD7BTfDQI="
               }
             },
             "ApiGatewayRestApi": {
@@ -434,7 +440,7 @@
                 "AuthLoginLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayDeployment1740364439438": {
+            "ApiGatewayDeployment1740407334700": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -534,7 +540,7 @@
             "GetGamesLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "GetGamesLambdaVersion14XaOBySjrQjqjd5IWuoiby3PzIZViJzRrSuJq6HB0"
+                "Ref": "GetGamesLambdaVersionZA9UqDhNwH958ZuqpVIZ4OrMTEH0OGfq9C0HcCnE"
               },
               "Export": {
                 "Name": "sls-get-games-api-dev-GetGamesLambdaFunctionQualifiedArn"
@@ -543,7 +549,7 @@
             "AuthLoginLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "AuthLoginLambdaVersion4Cj4OW6hLcDTa9vBPqECvNbQULPrxKtlgmblhsQFA"
+                "Ref": "AuthLoginLambdaVersionLc8KNGJPv6I3R9dqbb6lzs9lVetZh9nGqQvdbIdeSQ"
               },
               "Export": {
                 "Name": "sls-get-games-api-dev-AuthLoginLambdaFunctionQualifiedArn"
@@ -619,7 +625,7 @@
           "memory": 256,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "GetGamesLambdaVersion14XaOBySjrQjqjd5IWuoiby3PzIZViJzRrSuJq6HB0"
+          "versionLogicalId": "GetGamesLambdaVersionZA9UqDhNwH958ZuqpVIZ4OrMTEH0OGfq9C0HcCnE"
         },
         "authLogin": {
           "handler": "server.handler",
@@ -660,7 +666,7 @@
           "memory": 256,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "AuthLoginLambdaVersion4Cj4OW6hLcDTa9vBPqECvNbQULPrxKtlgmblhsQFA"
+          "versionLogicalId": "AuthLoginLambdaVersionLc8KNGJPv6I3R9dqbb6lzs9lVetZh9nGqQvdbIdeSQ"
         }
       }
     },
@@ -674,6 +680,9 @@
           "Effect": "Allow",
           "Action": [
             "lambda:InvokeFunction",
+            "logs:CreateLogStream",
+            "logs:CreateLogGroup",
+            "logs:PutLogEvents",
             "dynamodb:Scan"
           ],
           "Resource": "*"
@@ -758,6 +767,9 @@
                         "Effect": "Allow",
                         "Action": [
                           "lambda:InvokeFunction",
+                          "logs:CreateLogStream",
+                          "logs:CreateLogGroup",
+                          "logs:PutLogEvents",
                           "dynamodb:Scan"
                         ],
                         "Resource": "*"
@@ -787,7 +799,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-3e2cf282-a30b",
-                "S3Key": "serverless/get-games-api/dev/1740364449526-2025-02-24T02:34:09.526Z/get-games-api.zip"
+                "S3Key": "serverless/get-games-api/dev/1740407344917-2025-02-24T14:29:04.917Z/get-games-api.zip"
               },
               "Handler": "server.handler",
               "Runtime": "nodejs20.x",
@@ -810,7 +822,7 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-3e2cf282-a30b",
-                "S3Key": "serverless/get-games-api/dev/1740364449526-2025-02-24T02:34:09.526Z/get-games-api.zip"
+                "S3Key": "serverless/get-games-api/dev/1740407344917-2025-02-24T14:29:04.917Z/get-games-api.zip"
               },
               "Handler": "server.handler",
               "Runtime": "nodejs20.x",
@@ -828,24 +840,24 @@
               "AuthLoginLogGroup"
             ]
           },
-          "GetGamesLambdaVersion14XaOBySjrQjqjd5IWuoiby3PzIZViJzRrSuJq6HB0": {
+          "GetGamesLambdaVersionZA9UqDhNwH958ZuqpVIZ4OrMTEH0OGfq9C0HcCnE": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetGamesLambdaFunction"
               },
-              "CodeSha256": "uUjgN7Q9tMIImDx98y7YESC7BDw2PhXpPc5kqo3oA2A="
+              "CodeSha256": "c/3L4fbEoxPTiTApI1NiTi9/+H9Zua0+7QFD7BTfDQI="
             }
           },
-          "AuthLoginLambdaVersion4Cj4OW6hLcDTa9vBPqECvNbQULPrxKtlgmblhsQFA": {
+          "AuthLoginLambdaVersionLc8KNGJPv6I3R9dqbb6lzs9lVetZh9nGqQvdbIdeSQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AuthLoginLambdaFunction"
               },
-              "CodeSha256": "uUjgN7Q9tMIImDx98y7YESC7BDw2PhXpPc5kqo3oA2A="
+              "CodeSha256": "c/3L4fbEoxPTiTApI1NiTi9/+H9Zua0+7QFD7BTfDQI="
             }
           },
           "ApiGatewayRestApi": {
@@ -1093,7 +1105,7 @@
               "AuthLoginLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1740364439438": {
+          "ApiGatewayDeployment1740407334700": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -1193,7 +1205,7 @@
           "GetGamesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetGamesLambdaVersion14XaOBySjrQjqjd5IWuoiby3PzIZViJzRrSuJq6HB0"
+              "Ref": "GetGamesLambdaVersionZA9UqDhNwH958ZuqpVIZ4OrMTEH0OGfq9C0HcCnE"
             },
             "Export": {
               "Name": "sls-get-games-api-dev-GetGamesLambdaFunctionQualifiedArn"
@@ -1202,7 +1214,7 @@
           "AuthLoginLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AuthLoginLambdaVersion4Cj4OW6hLcDTa9vBPqECvNbQULPrxKtlgmblhsQFA"
+              "Ref": "AuthLoginLambdaVersionLc8KNGJPv6I3R9dqbb6lzs9lVetZh9nGqQvdbIdeSQ"
             },
             "Export": {
               "Name": "sls-get-games-api-dev-AuthLoginLambdaFunctionQualifiedArn"
@@ -1247,13 +1259,14 @@
       "serviceProvider": null,
       "instanceParameters": null
     },
-    "serviceRawFile": "service: get-games-api\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  region: us-east-1\n  stage: dev\n  iamRoleStatements:\n    - Effect: Allow\n      Action:\n        - lambda:InvokeFunction\n        - dynamodb:Scan\n      Resource: \"*\"\n\nfunctions:\n  getGames:\n    handler: server.handler\n    memorySize: 256\n    timeout: 10\n    package:\n      exclude:\n        - node_modules/**\n    events:\n      - http:\n          path: api/games\n          method: get\n          cors: true\n\n  authLogin:\n    handler: server.handler\n    memorySize: 256\n    timeout: 10\n    package:\n      exclude:\n        - node_modules/**\n    events:\n      - http:\n          path: api/auth/login\n          method: post\n          cors: true\n",
+    "serviceRawFile": "service: get-games-api\n\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  region: us-east-1\n  stage: dev\n  iamRoleStatements:\n    - Effect: Allow\n      Action:\n        - lambda:InvokeFunction\n        - logs:CreateLogStream\n        - logs:CreateLogGroup\n        - logs:PutLogEvents\n        - dynamodb:Scan\n      Resource: \"*\"\n\nfunctions:\n  getGames:\n    handler: server.handler\n    memorySize: 256\n    timeout: 10\n    package:\n      exclude:\n        - node_modules/**\n    events:\n      - http:\n          path: api/games\n          method: get\n          cors: true\n\n  authLogin:\n    handler: server.handler\n    memorySize: 256\n    timeout: 10\n    package:\n      exclude:\n        - node_modules/**\n    events:\n      - http:\n          path: api/auth/login\n          method: post\n          cors: true\n",
     "command": [
       "deploy"
     ],
     "options": {
       "stage": "dev",
-      "region": "us-east-1"
+      "region": "us-east-1",
+      "aws-profile": "serverless-deployer"
     },
     "orgId": "dc89384e-edb5-4e81-9e94-26134aff1a0f",
     "orgName": "ianews2025",
@@ -1263,9 +1276,15 @@
     "serviceProviderAwsCfStackName": "get-games-api-dev",
     "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:249181214292:stack/get-games-api-dev/b981c940-f254-11ef-93ff-0ed90967629b",
     "serviceProviderAwsCfStackCreated": "2025-02-24T02:11:57.641Z",
-    "serviceProviderAwsCfStackUpdated": "2025-02-24T02:25:38.358Z",
+    "serviceProviderAwsCfStackUpdated": "2025-02-24T12:24:30.278Z",
     "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
+      {
+        "OutputKey": "AuthLoginLambdaFunctionQualifiedArn",
+        "OutputValue": "arn:aws:lambda:us-east-1:249181214292:function:get-games-api-dev-authLogin:2",
+        "Description": "Current Lambda function version",
+        "ExportName": "sls-get-games-api-dev-AuthLoginLambdaFunctionQualifiedArn"
+      },
       {
         "OutputKey": "ServiceEndpoint",
         "OutputValue": "https://38i6dq3n4d.execute-api.us-east-1.amazonaws.com/dev",
@@ -1279,7 +1298,7 @@
       },
       {
         "OutputKey": "GetGamesLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:249181214292:function:get-games-api-dev-getGames:3",
+        "OutputValue": "arn:aws:lambda:us-east-1:249181214292:function:get-games-api-dev-getGames:5",
         "Description": "Current Lambda function version",
         "ExportName": "sls-get-games-api-dev-GetGamesLambdaFunctionQualifiedArn"
       }
@@ -1362,6 +1381,9 @@
                       "Effect": "Allow",
                       "Action": [
                         "lambda:InvokeFunction",
+                        "logs:CreateLogStream",
+                        "logs:CreateLogGroup",
+                        "logs:PutLogEvents",
                         "dynamodb:Scan"
                       ],
                       "Resource": "*"
@@ -1391,7 +1413,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-3e2cf282-a30b",
-              "S3Key": "serverless/get-games-api/dev/1740364449526-2025-02-24T02:34:09.526Z/get-games-api.zip"
+              "S3Key": "serverless/get-games-api/dev/1740407344917-2025-02-24T14:29:04.917Z/get-games-api.zip"
             },
             "Handler": "server.handler",
             "Runtime": "nodejs20.x",
@@ -1414,7 +1436,7 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-3e2cf282-a30b",
-              "S3Key": "serverless/get-games-api/dev/1740364449526-2025-02-24T02:34:09.526Z/get-games-api.zip"
+              "S3Key": "serverless/get-games-api/dev/1740407344917-2025-02-24T14:29:04.917Z/get-games-api.zip"
             },
             "Handler": "server.handler",
             "Runtime": "nodejs20.x",
@@ -1432,24 +1454,24 @@
             "AuthLoginLogGroup"
           ]
         },
-        "GetGamesLambdaVersion14XaOBySjrQjqjd5IWuoiby3PzIZViJzRrSuJq6HB0": {
+        "GetGamesLambdaVersionZA9UqDhNwH958ZuqpVIZ4OrMTEH0OGfq9C0HcCnE": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "GetGamesLambdaFunction"
             },
-            "CodeSha256": "uUjgN7Q9tMIImDx98y7YESC7BDw2PhXpPc5kqo3oA2A="
+            "CodeSha256": "c/3L4fbEoxPTiTApI1NiTi9/+H9Zua0+7QFD7BTfDQI="
           }
         },
-        "AuthLoginLambdaVersion4Cj4OW6hLcDTa9vBPqECvNbQULPrxKtlgmblhsQFA": {
+        "AuthLoginLambdaVersionLc8KNGJPv6I3R9dqbb6lzs9lVetZh9nGqQvdbIdeSQ": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "AuthLoginLambdaFunction"
             },
-            "CodeSha256": "uUjgN7Q9tMIImDx98y7YESC7BDw2PhXpPc5kqo3oA2A="
+            "CodeSha256": "c/3L4fbEoxPTiTApI1NiTi9/+H9Zua0+7QFD7BTfDQI="
           }
         },
         "ApiGatewayRestApi": {
@@ -1697,7 +1719,7 @@
             "AuthLoginLambdaPermissionApiGateway"
           ]
         },
-        "ApiGatewayDeployment1740364439438": {
+        "ApiGatewayDeployment1740407334700": {
           "Type": "AWS::ApiGateway::Deployment",
           "Properties": {
             "RestApiId": {
@@ -1797,7 +1819,7 @@
         "GetGamesLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "GetGamesLambdaVersion14XaOBySjrQjqjd5IWuoiby3PzIZViJzRrSuJq6HB0"
+            "Ref": "GetGamesLambdaVersionZA9UqDhNwH958ZuqpVIZ4OrMTEH0OGfq9C0HcCnE"
           },
           "Export": {
             "Name": "sls-get-games-api-dev-GetGamesLambdaFunctionQualifiedArn"
@@ -1806,7 +1828,7 @@
         "AuthLoginLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "AuthLoginLambdaVersion4Cj4OW6hLcDTa9vBPqECvNbQULPrxKtlgmblhsQFA"
+            "Ref": "AuthLoginLambdaVersionLc8KNGJPv6I3R9dqbb6lzs9lVetZh9nGqQvdbIdeSQ"
           },
           "Export": {
             "Name": "sls-get-games-api-dev-AuthLoginLambdaFunctionQualifiedArn"

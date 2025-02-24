@@ -20,7 +20,6 @@ const BASE_PATH = process.env.BASE_PATH || '/dev';
 // Configuración de rutas
 app.use(`${BASE_PATH}/api/games`, gameRoutes);
 app.use(`${BASE_PATH}/api/auth`, authRoutes);
-app.use(`${BASE_PATH}/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Exportar handler de Lambda
 module.exports.handler = serverless(app);

@@ -2,7 +2,6 @@
 
 set -e  # Detener el script en caso de error
 
-AWS_PROFILE="serverless-deployer"
 AWS_REGION="us-east-1"
 STACK_NAME="get-games-api"
 IAM_ROLE_NAME="get-games-api-lambda-role"
@@ -22,7 +21,7 @@ rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR"
 cp -r server.js package.json "$DEPLOY_DIR"
 
-# 📤 [4/9] Empaquetar código para AWS Lambda (excluir `node_modules`)
+# 📤 [4/9] Empaquetar código para AWS Lambda
 echo "📤 Empaquetando código para AWS Lambda..."
 cd "$DEPLOY_DIR"
 zip -r "../$FUNCTION_NAME.zip" ./*
@@ -30,7 +29,7 @@ cd ..
 
 # 🔍 [5/9] Verificar si el IAM Role existe, si no, crearlo
 echo "🔍 Verificando si el IAM Role $IAM_ROLE_NAME existe..."
-if ! aws iam get-role --role-name "$IAM_ROLE_NAME" --profile "$AWS_PROFILE" &>/dev/null; then
+if ! aws iam get-role --role-name "$IAM_ROLE_NAME" --region "$AWS_REGION" &>/dev/null; then
     echo "🚀 Creando IAM Role para Lambda..."
     aws iam create-role --role-name "$IAM_ROLE_NAME" \
         --assume-role-policy-document '{
@@ -43,12 +42,12 @@ if ! aws iam get-role --role-name "$IAM_ROLE_NAME" --profile "$AWS_PROFILE" &>/d
                 }
             ]
         }' \
-        --profile "$AWS_PROFILE" --region "$AWS_REGION"
+        --region "$AWS_REGION"
 
     # Asignar permisos al role
     aws iam attach-role-policy --role-name "$IAM_ROLE_NAME" \
         --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole \
-        --profile "$AWS_PROFILE" --region "$AWS_REGION"
+        --region "$AWS_REGION"
     
     echo "✅ IAM Role creado y configurado."
 else
@@ -56,15 +55,15 @@ else
 fi
 
 # 🔍 Obtener ARN del role
-IAM_ROLE_ARN=$(aws iam get-role --role-name "$IAM_ROLE_NAME" --query 'Role.Arn' --output text --profile "$AWS_PROFILE")
+IAM_ROLE_ARN=$(aws iam get-role --role-name "$IAM_ROLE_NAME" --query 'Role.Arn' --output text --region "$AWS_REGION")
 
 # 🔍 [6/9] Verificar si la función Lambda ya existe
 echo "🔍 Verificando si la función Lambda $FUNCTION_NAME existe en AWS..."
-if aws lambda get-function --function-name "$FUNCTION_NAME" --profile "$AWS_PROFILE" --region "$AWS_REGION" &>/dev/null; then
+if aws lambda get-function --function-name "$FUNCTION_NAME" --region "$AWS_REGION" &>/dev/null; then
     echo "📤 Actualizando código de la función Lambda..."
     aws lambda update-function-code --function-name "$FUNCTION_NAME" \
         --zip-file "fileb://$FUNCTION_NAME.zip" \
-        --profile "$AWS_PROFILE" --region "$AWS_REGION"
+        --region "$AWS_REGION"
 else
     echo "🚀 Creando nueva función Lambda..."
     aws lambda create-function --function-name "$FUNCTION_NAME" \
@@ -74,18 +73,18 @@ else
         --zip-file "fileb://$FUNCTION_NAME.zip" \
         --timeout 15 \
         --memory-size 128 \
-        --profile "$AWS_PROFILE" --region "$AWS_REGION"
+        --region "$AWS_REGION"
 fi
 
 echo "✅ Función Lambda lista."
 
 # 🔥 [7/9] Desplegar API Gateway con Serverless Framework
 echo "🌐 Desplegando API Gateway con Serverless..."
-AWS_PROFILE=$AWS_PROFILE serverless deploy --stage dev --region "$AWS_REGION"
+serverless deploy --stage dev --region "$AWS_REGION"
 
 # 📌 [8/9] Obtener la URL del API Gateway correctamente
 echo "🔍 Obteniendo la URL de la API Gateway..."
-API_ID=$(aws apigateway get-rest-apis --profile "$AWS_PROFILE" --region "$AWS_REGION" \
+API_ID=$(aws apigateway get-rest-apis --region "$AWS_REGION" \
     --query "items[?contains(name, '$STACK_NAME')].id" --output text)
 
 if [[ -z "$API_ID" ]]; then

@@ -9,6 +9,9 @@ provider:
     - Effect: Allow
       Action:
         - lambda:InvokeFunction
+        - logs:CreateLogStream
+        - logs:CreateLogGroup
+        - logs:PutLogEvents
         - dynamodb:Scan
       Resource: "*"
 

@@ -13,9 +13,9 @@ echo "🚀 [1/9] Iniciando despliegue de la API Get Games en AWS..."
 
 # 🛠️ [2/9] Instalar dependencias solo de producción
 echo "📦 Instalando dependencias de producción..."
-rm -rf node_modules
+rm -rf node_modules package-lock.json
 
-npm install --omit=dev
+npm install --omit=dev  # Evitar dependencias de desarrollo
 
 # 🏗️ [3/9] Construir la aplicación
 echo "🔧 Construyendo el proyecto..."
@@ -23,7 +23,7 @@ rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR"
 cp -r server.js package.json "$DEPLOY_DIR"
 
-# 📤 [4/9] Empaquetar código para AWS Lambda (sin node_modules)
+# 📤 [4/9] Empaquetar código para AWS Lambda
 echo "📤 Empaquetando código para AWS Lambda..."
 cd "$DEPLOY_DIR"
 zip -r "../$FUNCTION_NAME.zip" ./*
@@ -82,7 +82,7 @@ echo "✅ Función Lambda lista."
 
 # 🔥 [7/9] Desplegar API Gateway con Serverless Framework
 echo "🌐 Desplegando API Gateway con Serverless..."
-serverless deploy --stage dev --region "$AWS_REGION"
+serverless deploy --stage dev --region "$AWS_REGION" --profile "$AWS_PROFILE"
 
 # 📌 [8/9] Obtener la URL del API Gateway
 API_URL=$(aws apigateway get-rest-apis --profile "$AWS_PROFILE" --region "$AWS_REGION" \

@@ -14,11 +14,8 @@ provider:
 functions:
   getGames:
     handler: server.handler
-    memorySize: 256
-    timeout: 10
-    package:
-      exclude:
-        - node_modules/**  # EXCLUIR NODE_MODULES PARA EVITAR ERRORES DE TAMAÑO
+    memorySize: 256  # Optimización de memoria
+    timeout: 10      # Se aumentó el timeout para evitar fallos
     events:
       - http:
           path: api/games

@@ -11,16 +11,17 @@ DEPLOY_DIR="dist"
 
 echo "🚀 [1/9] Iniciando despliegue de la API Get Games en AWS..."
 
-# 🛠️ [2/9] Instalar dependencias solo de producción
+# 🛠️ [2/9] Instalar dependencias asegurando serverless-http
 echo "📦 Instalando dependencias de producción..."
 rm -rf node_modules package-lock.json
-npm install --omit=dev  # Evitar dependencias de desarrollo para reducir tamaño
+npm install --omit=dev  # Evitar dependencias de desarrollo
+npm install serverless-http  # 🔴 Asegurar que serverless-http está instalado
 
 # 🏗️ [3/9] Construir la aplicación
 echo "🔧 Construyendo el proyecto..."
 rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR"
-cp -r server.js package.json "$DEPLOY_DIR"
+cp -r server.js package.json node_modules "$DEPLOY_DIR"
 
 # 📤 [4/9] Empaquetar código para AWS Lambda
 echo "📤 Empaquetando código para AWS Lambda..."

@@ -108,7 +108,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-3e2cf282-a30b",
-          "S3Key": "serverless/get-games-api/dev/1740407344917-2025-02-24T14:29:04.917Z/get-games-api.zip"
+          "S3Key": "serverless/get-games-api/dev/1740412707057-2025-02-24T15:58:27.057Z/get-games-api.zip"
         },
         "Handler": "server.handler",
         "Runtime": "nodejs20.x",
@@ -131,7 +131,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-3e2cf282-a30b",
-          "S3Key": "serverless/get-games-api/dev/1740407344917-2025-02-24T14:29:04.917Z/get-games-api.zip"
+          "S3Key": "serverless/get-games-api/dev/1740412707057-2025-02-24T15:58:27.057Z/get-games-api.zip"
         },
         "Handler": "server.handler",
         "Runtime": "nodejs20.x",
@@ -149,24 +149,24 @@
         "AuthLoginLogGroup"
       ]
     },
-    "GetGamesLambdaVersionZA9UqDhNwH958ZuqpVIZ4OrMTEH0OGfq9C0HcCnE": {
+    "GetGamesLambdaVersionM95zZb6zRoKwFOYvB1CvMHBzQrxqmTP7jGWVckIp6Y": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetGamesLambdaFunction"
         },
-        "CodeSha256": "c/3L4fbEoxPTiTApI1NiTi9/+H9Zua0+7QFD7BTfDQI="
+        "CodeSha256": "wQPUet/J7ts6QIC/4RuK7uKBCuFFgtbI7uAsuhR78eE="
       }
     },
-    "AuthLoginLambdaVersionLc8KNGJPv6I3R9dqbb6lzs9lVetZh9nGqQvdbIdeSQ": {
+    "AuthLoginLambdaVersionFvkEbSxRGKhgQRj7Vh98NreiFbM0zBHdVExtt3Yodo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AuthLoginLambdaFunction"
         },
-        "CodeSha256": "c/3L4fbEoxPTiTApI1NiTi9/+H9Zua0+7QFD7BTfDQI="
+        "CodeSha256": "wQPUet/J7ts6QIC/4RuK7uKBCuFFgtbI7uAsuhR78eE="
       }
     },
     "ApiGatewayRestApi": {
@@ -414,7 +414,7 @@
         "AuthLoginLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1740407334700": {
+    "ApiGatewayDeployment1740412692701": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -514,7 +514,7 @@
     "GetGamesLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetGamesLambdaVersionZA9UqDhNwH958ZuqpVIZ4OrMTEH0OGfq9C0HcCnE"
+        "Ref": "GetGamesLambdaVersionM95zZb6zRoKwFOYvB1CvMHBzQrxqmTP7jGWVckIp6Y"
       },
       "Export": {
         "Name": "sls-get-games-api-dev-GetGamesLambdaFunctionQualifiedArn"
@@ -523,7 +523,7 @@
     "AuthLoginLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AuthLoginLambdaVersionLc8KNGJPv6I3R9dqbb6lzs9lVetZh9nGqQvdbIdeSQ"
+        "Ref": "AuthLoginLambdaVersionFvkEbSxRGKhgQRj7Vh98NreiFbM0zBHdVExtt3Yodo"
       },
       "Export": {
         "Name": "sls-get-games-api-dev-AuthLoginLambdaFunctionQualifiedArn"

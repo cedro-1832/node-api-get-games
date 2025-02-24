@@ -40,4 +40,38 @@ const register = async (req, res) => {
   }
 };
 
-module.exports = { register };
+const login = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Verificar si el usuario existe
+    const params = {
+      TableName: TABLE_NAME,
+      Key: { email }
+    };
+
+    const { Item } = await dynamoDB.send(new GetCommand(params));
+
+    if (!Item) {
+      return res.status(400).json({ message: "Usuario no encontrado" });
+    }
+
+    // Comparar contraseñas
+    const validPassword = await bcrypt.compare(password, Item.password);
+    if (!validPassword) {
+      return res.status(400).json({ message: "Contraseña incorrecta" });
+    }
+
+    // Generar token
+    const token = jwt.sign({ email: Item.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    res.json({ token });
+
+  } catch (error) {
+    console.error("Error en login:", error);
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+};
+
+// Exportar funciones correctamente
+module.exports = { register, login };

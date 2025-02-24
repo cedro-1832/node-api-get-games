@@ -63,7 +63,11 @@ if aws lambda get-function --function-name "$FUNCTION_NAME" --region "$AWS_REGIO
     echo "📤 Actualizando código de la función Lambda..."
     aws lambda update-function-code --function-name "$FUNCTION_NAME" \
         --zip-file "fileb://$FUNCTION_NAME.zip" \
-        --region "$AWS_REGION"
+        --region "$AWS_REGION" || {
+        echo "❌ Error: No tienes permisos suficientes para actualizar la Lambda."
+        echo "🔧 Asegúrate de que el usuario IAM tiene permisos para 'lambda:UpdateFunctionCode'."
+        exit 1
+    }
 else
     echo "🚀 Creando nueva función Lambda..."
     aws lambda create-function --function-name "$FUNCTION_NAME" \
@@ -82,7 +86,7 @@ echo "✅ Función Lambda lista."
 echo "🌐 Desplegando API Gateway con Serverless..."
 serverless deploy --stage dev --region "$AWS_REGION"
 
-# 📌 [8/9] Obtener la URL del API Gateway correctamente
+# 📌 [8/9] Obtener la URL de la API Gateway correctamente
 echo "🔍 Obteniendo la URL de la API Gateway..."
 API_ID=$(aws apigateway get-rest-apis --region "$AWS_REGION" \
     --query "items[?contains(name, '$STACK_NAME')].id" --output text)

@@ -13,8 +13,13 @@ echo "🚀 [1/9] Iniciando despliegue de la API Get Games en AWS..."
 
 # 🛠️ [2/9] Instalar dependencias solo de producción
 echo "📦 Instalando dependencias de producción..."
-rm -rf node_modules package-lock.json
-npm ci --only=production
+rm -rf node_modules
+
+if [ -f "package-lock.json" ]; then
+    npm ci --omit=dev
+else
+    npm install --omit=dev
+fi
 
 # 🏗️ [3/9] Construir la aplicación
 echo "🔧 Construyendo el proyecto..."

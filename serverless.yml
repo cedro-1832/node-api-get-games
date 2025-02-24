@@ -4,7 +4,7 @@ provider:
   name: aws
   runtime: nodejs20.x
   region: us-east-1
-  stage: dev  # Definir explícitamente el stage
+  stage: dev
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -19,21 +19,22 @@ functions:
     timeout: 10
     package:
       exclude:
-        - node_modules/**  # Excluir node_modules para evitar errores de tamaño
+        - node_modules/**
     events:
       - http:
           path: api/games
           method: get
           cors: true
 
-outputs:
-  ServiceEndpoint:
-    Value:
-      Fn::Join:
-        - ""
-        - - "https://"
-          - Ref: ApiGatewayRestApi
-          - ".execute-api."
-          - Ref: AWS::Region
-          - ".amazonaws.com/"
-          - Ref: AWS::Stage
+  authLogin:
+    handler: server.handler
+    memorySize: 256
+    timeout: 10
+    package:
+      exclude:
+        - node_modules/**
+    events:
+      - http:
+          path: api/auth/login
+          method: post
+          cors: true

@@ -14,8 +14,8 @@ const login = async (req, res) => {
     }
 
     if (!process.env.JWT_SECRET) {
-      console.error("Error: JWT_SECRET no está definido en el archivo .env");
-      return res.status(500).json({ message: "Error interno en el servidor" });
+      console.error("❌ Error: JWT_SECRET no está definido en el archivo .env");
+      return res.status(500).json({ message: "Error interno en el servidor: Configuración faltante" });
     }
 
     const token = jwt.sign({ email: USER_DEFAULT.email }, process.env.JWT_SECRET, { expiresIn: "1h" });

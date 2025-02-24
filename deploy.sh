@@ -5,26 +5,29 @@ set -e  # Detener el script en caso de error
 AWS_PROFILE="serverless-deployer"
 AWS_REGION="us-east-1"
 STACK_NAME="get-games-api"
-BUCKET_NAME="serverless-framework-deployments"
 IAM_ROLE_NAME="get-games-api-lambda-role"
 FUNCTION_NAME="get-games"
 DEPLOY_DIR="dist"
 
 echo "🚀 [1/9] Iniciando despliegue de la API Get Games en AWS..."
 
-# 🛠️ [2/9] Instalar dependencias si es necesario
-echo "📦 Instalando dependencias..."
-npm install
+# 🛠️ [2/9] Instalar dependencias solo de producción
+echo "📦 Instalando dependencias de producción..."
+rm -rf node_modules package-lock.json
+npm ci --only=production
 
-# 🏗️ [3/9] Construir la aplicación si es necesario
+# 🏗️ [3/9] Construir la aplicación
 echo "🔧 Construyendo el proyecto..."
 rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR"
-cp -r server.js package.json node_modules "$DEPLOY_DIR"
+cp -r server.js package.json "$DEPLOY_DIR"
+cp -r node_modules "$DEPLOY_DIR"
 
 # 📤 [4/9] Empaquetar código para AWS Lambda
 echo "📤 Empaquetando código para AWS Lambda..."
-zip -r "$DEPLOY_DIR/$FUNCTION_NAME.zip" "$DEPLOY_DIR"
+cd "$DEPLOY_DIR"
+zip -r "../$FUNCTION_NAME.zip" ./*
+cd ..
 
 # 🔍 [5/9] Verificar si el IAM Role existe, si no, crearlo
 echo "🔍 Verificando si el IAM Role $IAM_ROLE_NAME existe..."
@@ -61,7 +64,7 @@ echo "🔍 Verificando si la función Lambda $FUNCTION_NAME existe en AWS..."
 if aws lambda get-function --function-name "$FUNCTION_NAME" --profile "$AWS_PROFILE" --region "$AWS_REGION" &>/dev/null; then
     echo "📤 Actualizando código de la función Lambda..."
     aws lambda update-function-code --function-name "$FUNCTION_NAME" \
-        --zip-file "fileb://$DEPLOY_DIR/$FUNCTION_NAME.zip" \
+        --zip-file "fileb://$FUNCTION_NAME.zip" \
         --profile "$AWS_PROFILE" --region "$AWS_REGION"
 else
     echo "🚀 Creando nueva función Lambda..."
@@ -69,7 +72,7 @@ else
         --runtime "nodejs20.x" \
         --role "$IAM_ROLE_ARN" \
         --handler "server.handler" \
-        --zip-file "fileb://$DEPLOY_DIR/$FUNCTION_NAME.zip" \
+        --zip-file "fileb://$FUNCTION_NAME.zip" \
         --timeout 15 \
         --memory-size 128 \
         --profile "$AWS_PROFILE" --region "$AWS_REGION"
@@ -77,7 +80,7 @@ fi
 
 echo "✅ Función Lambda lista."
 
-# 🔥 [7/9] Verificar si el archivo serverless.yml existe
+# 🔥 [7/9] Verificar si `serverless.yml` existe
 if [ ! -f "serverless.yml" ]; then
     echo "❌ Error: No se encontró serverless.yml. Creándolo..."
     

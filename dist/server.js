@@ -1,25 +1,26 @@
-const express = require('express');
-const serverless = require('serverless-http');
-const dotenv = require('dotenv');
-dotenv.config();
-const helmet = require('helmet');
-const cors = require('cors');
+service: get-games-api
 
-const gameRoutes = require('./routes/gameRoutes');
-const authRoutes = require('./routes/authRoutes');
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+        - dynamodb:Scan
+      Resource: "*"
 
-const swaggerUi = require('swagger-ui-express');
-const swaggerSpec = require('./config/swagger');
-
-const app = express();
-
-app.use(express.json());
-app.use(helmet());
-app.use(cors({ origin: "*" }));
-
-app.use('/api/games', gameRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-// Exportar correctamente para AWS Lambda
-module.exports.handler = serverless(app);
+functions:
+  getGames:
+    handler: server.handler
+    memorySize: 256
+    timeout: 10
+    package:
+      exclude:
+        - node_modules/**  # EXCLUIR NODE_MODULES PARA EVITAR ERRORES DE TAMAÑO
+    events:
+      - http:
+          path: api/games
+          method: get
+          cors: true

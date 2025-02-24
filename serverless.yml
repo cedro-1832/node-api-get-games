@@ -1,9 +1,9 @@
 service: get-games-api
+
 provider:
   name: aws
   runtime: nodejs20.x
   region: us-east-1
-  profile: serverless-deployer
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -14,8 +14,11 @@ provider:
 functions:
   getGames:
     handler: server.handler
-    memorySize: 256  # Optimización de memoria
-    timeout: 10      # Se aumentó el timeout para evitar fallos
+    memorySize: 256
+    timeout: 10
+    package:
+      exclude:
+        - node_modules/**  # EXCLUIR NODE_MODULES PARA EVITAR ERRORES DE TAMAÑO
     events:
       - http:
           path: api/games

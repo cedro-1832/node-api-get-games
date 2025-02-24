@@ -9,6 +9,7 @@
         "name": "aws",
         "runtime": "nodejs20.x",
         "region": "us-east-1",
+        "profile": "serverless-deployer",
         "iamRoleStatements": [
           {
             "Effect": "Allow",
@@ -122,13 +123,13 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-3e2cf282-a30b",
-                  "S3Key": "serverless/get-games-api/dev/1740361147767-2025-02-24T01:39:07.767Z/get-games-api.zip"
+                  "S3Key": "serverless/get-games-api/dev/1740361859701-2025-02-24T01:50:59.701Z/get-games-api.zip"
                 },
                 "Handler": "server.handler",
                 "Runtime": "nodejs20.x",
                 "FunctionName": "get-games-api-dev-getGames",
-                "MemorySize": 1024,
-                "Timeout": 6,
+                "MemorySize": 256,
+                "Timeout": 10,
                 "Role": {
                   "Fn::GetAtt": [
                     "IamRoleLambdaExecution",
@@ -140,14 +141,14 @@
                 "GetGamesLogGroup"
               ]
             },
-            "GetGamesLambdaVersionydp0Gy5qphAIA335UKR9ZZJD2iW8luYBayagfD2nE": {
+            "GetGamesLambdaVersionWeX9Kl1FDW4SragB1LPe85CRp0lZmhcW8sMYy0aAeQ": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "GetGamesLambdaFunction"
                 },
-                "CodeSha256": "YbRAyBhZ0yWqF4FIKK/I/OIi6wtd1f3NPy7hv0bm+4A="
+                "CodeSha256": "cwzKAUmYZ6pbzvLu0keTC43+kuYkXZsZs9bzz3MZfCM="
               }
             },
             "ApiGatewayRestApi": {
@@ -280,7 +281,7 @@
                 "GetGamesLambdaPermissionApiGateway"
               ]
             },
-            "ApiGatewayDeployment1740361132852": {
+            "ApiGatewayDeployment1740361845760": {
               "Type": "AWS::ApiGateway::Deployment",
               "Properties": {
                 "RestApiId": {
@@ -341,7 +342,7 @@
             "GetGamesLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "GetGamesLambdaVersionydp0Gy5qphAIA335UKR9ZZJD2iW8luYBayagfD2nE"
+                "Ref": "GetGamesLambdaVersionWeX9Kl1FDW4SragB1LPe85CRp0lZmhcW8sMYy0aAeQ"
               },
               "Export": {
                 "Name": "sls-get-games-api-dev-GetGamesLambdaFunctionQualifiedArn"
@@ -380,6 +381,8 @@
       "functions": {
         "getGames": {
           "handler": "server.handler",
+          "memorySize": 256,
+          "timeout": 10,
           "events": [
             {
               "http": {
@@ -408,11 +411,10 @@
           ],
           "name": "get-games-api-dev-getGames",
           "package": {},
-          "memory": 1024,
-          "timeout": 6,
+          "memory": 256,
           "runtime": "nodejs20.x",
           "vpc": {},
-          "versionLogicalId": "GetGamesLambdaVersionydp0Gy5qphAIA335UKR9ZZJD2iW8luYBayagfD2nE"
+          "versionLogicalId": "GetGamesLambdaVersionWeX9Kl1FDW4SragB1LPe85CRp0lZmhcW8sMYy0aAeQ"
         }
       }
     },
@@ -420,6 +422,7 @@
       "name": "aws",
       "runtime": "nodejs20.x",
       "region": "us-east-1",
+      "profile": "serverless-deployer",
       "iamRoleStatements": [
         {
           "Effect": "Allow",
@@ -533,13 +536,13 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-3e2cf282-a30b",
-                "S3Key": "serverless/get-games-api/dev/1740361147767-2025-02-24T01:39:07.767Z/get-games-api.zip"
+                "S3Key": "serverless/get-games-api/dev/1740361859701-2025-02-24T01:50:59.701Z/get-games-api.zip"
               },
               "Handler": "server.handler",
               "Runtime": "nodejs20.x",
               "FunctionName": "get-games-api-dev-getGames",
-              "MemorySize": 1024,
-              "Timeout": 6,
+              "MemorySize": 256,
+              "Timeout": 10,
               "Role": {
                 "Fn::GetAtt": [
                   "IamRoleLambdaExecution",
@@ -551,14 +554,14 @@
               "GetGamesLogGroup"
             ]
           },
-          "GetGamesLambdaVersionydp0Gy5qphAIA335UKR9ZZJD2iW8luYBayagfD2nE": {
+          "GetGamesLambdaVersionWeX9Kl1FDW4SragB1LPe85CRp0lZmhcW8sMYy0aAeQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetGamesLambdaFunction"
               },
-              "CodeSha256": "YbRAyBhZ0yWqF4FIKK/I/OIi6wtd1f3NPy7hv0bm+4A="
+              "CodeSha256": "cwzKAUmYZ6pbzvLu0keTC43+kuYkXZsZs9bzz3MZfCM="
             }
           },
           "ApiGatewayRestApi": {
@@ -691,7 +694,7 @@
               "GetGamesLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1740361132852": {
+          "ApiGatewayDeployment1740361845760": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -752,7 +755,7 @@
           "GetGamesLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetGamesLambdaVersionydp0Gy5qphAIA335UKR9ZZJD2iW8luYBayagfD2nE"
+              "Ref": "GetGamesLambdaVersionWeX9Kl1FDW4SragB1LPe85CRp0lZmhcW8sMYy0aAeQ"
             },
             "Export": {
               "Name": "sls-get-games-api-dev-GetGamesLambdaFunctionQualifiedArn"
@@ -798,17 +801,18 @@
       "instanceParameters": null
     },
     "error": {
-      "message": "An error occurred: GetGamesLambdaFunction - Resource handler returned message: \"Unzipped size must be smaller than 262144000 bytes (Service: Lambda, Status Code: 400, Request ID: de2b6c88-ec6c-40a3-a4ef-acaffdb14179)\" (RequestToken: b90e8c07-b9c5-d1b3-8024-f14360f671b4, HandlerErrorCode: InvalidRequest).",
-      "stack": "ServerlessError3: An error occurred: GetGamesLambdaFunction - Resource handler returned message: \"Unzipped size must be smaller than 262144000 bytes (Service: Lambda, Status Code: 400, Request ID: de2b6c88-ec6c-40a3-a4ef-acaffdb14179)\" (RequestToken: b90e8c07-b9c5-d1b3-8024-f14360f671b4, HandlerErrorCode: InvalidRequest).\n    at file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1230:832\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async AwsDeploy.createFallback (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1230:23748)\n    at async aws:deploy:deploy:updateStack (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1241:6089)\n    at async PluginManager.runHooks (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:9562)\n    at async PluginManager.invoke (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:10333)\n    at async PluginManager.spawn (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:10696)\n    at async PluginManager.runHooks (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:9562)\n    at async PluginManager.invoke (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:10333)\n    at async PluginManager.run (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:11068)",
+      "message": "An error occurred: GetGamesLambdaFunction - Resource handler returned message: \"Unzipped size must be smaller than 262144000 bytes (Service: Lambda, Status Code: 400, Request ID: 98ce5381-af1a-4b3e-936d-4bedc93fb704)\" (RequestToken: bfaaca89-9864-050b-9588-2d1b7c35f850, HandlerErrorCode: InvalidRequest).",
+      "stack": "ServerlessError3: An error occurred: GetGamesLambdaFunction - Resource handler returned message: \"Unzipped size must be smaller than 262144000 bytes (Service: Lambda, Status Code: 400, Request ID: 98ce5381-af1a-4b3e-936d-4bedc93fb704)\" (RequestToken: bfaaca89-9864-050b-9588-2d1b7c35f850, HandlerErrorCode: InvalidRequest).\n    at file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1230:832\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async AwsDeploy.createFallback (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1230:23748)\n    at async aws:deploy:deploy:updateStack (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1241:6089)\n    at async PluginManager.runHooks (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:9562)\n    at async PluginManager.invoke (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:10333)\n    at async PluginManager.spawn (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:10696)\n    at async PluginManager.runHooks (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:9562)\n    at async PluginManager.invoke (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:10333)\n    at async PluginManager.run (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1432:11068)",
       "code": "AWS_CLOUD_FORMATION_CREATE_STACK_INTERNAL_LAMBDA_FUNCTION_CREATE_FAILED"
     },
-    "serviceRawFile": "service: get-games-api\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  region: us-east-1\n  iamRoleStatements:\n    - Effect: Allow\n      Action:\n        - lambda:InvokeFunction\n        - dynamodb:Scan\n      Resource: \"*\"\n\nfunctions:\n  getGames:\n    handler: server.handler\n    events:\n      - http:\n          path: api/games\n          method: get\n          cors: true\n",
+    "serviceRawFile": "service: get-games-api\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  region: us-east-1\n  profile: serverless-deployer\n  iamRoleStatements:\n    - Effect: Allow\n      Action:\n        - lambda:InvokeFunction\n        - dynamodb:Scan\n      Resource: \"*\"\n\nfunctions:\n  getGames:\n    handler: server.handler\n    memorySize: 256  # Optimización de memoria\n    timeout: 10      # Se aumentó el timeout para evitar fallos\n    events:\n      - http:\n          path: api/games\n          method: get\n          cors: true\n",
     "command": [
       "deploy"
     ],
     "options": {
       "stage": "dev",
-      "region": "us-east-1"
+      "region": "us-east-1",
+      "aws-profile": "serverless-deployer"
     },
     "orgId": "dc89384e-edb5-4e81-9e94-26134aff1a0f",
     "orgName": "ianews2025",

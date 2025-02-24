@@ -4,13 +4,13 @@ set -e  # Detener el script en caso de error
 
 AWS_PROFILE="serverless-deployer"
 AWS_REGION="us-east-1"
-STACK_NAME="playstation-games-api"
+STACK_NAME="get-games-api"
 BUCKET_NAME="serverless-framework-deployments"
-IAM_ROLE="playstation-games-api-lambda-role"
-FUNCTION_NAME="playstation-games-api"
+IAM_ROLE="get-games-api-lambda-role"
+FUNCTION_NAME="get-games"
 DEPLOY_DIR="dist"
 
-echo "🚀 [1/7] Iniciando despliegue de la API PlayStation Games en AWS..."
+echo "🚀 [1/7] Iniciando despliegue de la API Get Games en AWS..."
 
 # 🛠️ [2/7] Instalar dependencias si es necesario
 echo "📦 Instalando dependencias..."

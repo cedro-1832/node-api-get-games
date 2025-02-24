@@ -8,14 +8,23 @@ const USER_DEFAULT = {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  if (email !== USER_DEFAULT.email || password !== USER_DEFAULT.password) {
-    return res.status(400).json({ message: "Usuario o contraseña incorrectos" });
+  try {
+    if (email !== USER_DEFAULT.email || password !== USER_DEFAULT.password) {
+      return res.status(400).json({ message: "Usuario o contraseña incorrectos" });
+    }
+
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ message: "Error interno: JWT_SECRET no está definido" });
+    }
+
+    // Generar token
+    const token = jwt.sign({ email: USER_DEFAULT.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+    res.json({ token });
+  } catch (error) {
+    console.error("Error en login:", error);
+    res.status(500).json({ message: "Error en el servidor", error: error.message });
   }
-
-  // Generar token
-  const token = jwt.sign({ email: USER_DEFAULT.email }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-  res.json({ token });
 };
 
 module.exports = { login };

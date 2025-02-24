@@ -1,5 +1,5 @@
 {
-  "name": "api-playstation-games",
+  "name": "get-games-api",
   "version": "1.0.0",
   "type": "commonjs",
   "main": "server.js",

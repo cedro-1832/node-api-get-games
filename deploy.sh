@@ -10,23 +10,23 @@ IAM_ROLE_NAME="get-games-api-lambda-role"
 FUNCTION_NAME="get-games"
 DEPLOY_DIR="dist"
 
-echo "🚀 [1/8] Iniciando despliegue de la API Get Games en AWS..."
+echo "🚀 [1/9] Iniciando despliegue de la API Get Games en AWS..."
 
-# 🛠️ [2/8] Instalar dependencias si es necesario
+# 🛠️ [2/9] Instalar dependencias si es necesario
 echo "📦 Instalando dependencias..."
 npm install
 
-# 🏗️ [3/8] Construir la aplicación si es necesario
+# 🏗️ [3/9] Construir la aplicación si es necesario
 echo "🔧 Construyendo el proyecto..."
 rm -rf "$DEPLOY_DIR"
 mkdir -p "$DEPLOY_DIR"
 cp -r server.js package.json node_modules "$DEPLOY_DIR"
 
-# 📤 [4/8] Empaquetar código para AWS Lambda
+# 📤 [4/9] Empaquetar código para AWS Lambda
 echo "📤 Empaquetando código para AWS Lambda..."
 zip -r "$DEPLOY_DIR/$FUNCTION_NAME.zip" "$DEPLOY_DIR"
 
-# 🔍 [5/8] Verificar si el IAM Role existe, si no, crearlo
+# 🔍 [5/9] Verificar si el IAM Role existe, si no, crearlo
 echo "🔍 Verificando si el IAM Role $IAM_ROLE_NAME existe..."
 if ! aws iam get-role --role-name "$IAM_ROLE_NAME" --profile "$AWS_PROFILE" &>/dev/null; then
     echo "🚀 Creando IAM Role para Lambda..."
@@ -56,7 +56,7 @@ fi
 # 🔍 Obtener ARN del role
 IAM_ROLE_ARN=$(aws iam get-role --role-name "$IAM_ROLE_NAME" --query 'Role.Arn' --output text --profile "$AWS_PROFILE")
 
-# 🔍 [6/8] Verificar si la función Lambda ya existe
+# 🔍 [6/9] Verificar si la función Lambda ya existe
 echo "🔍 Verificando si la función Lambda $FUNCTION_NAME existe en AWS..."
 if aws lambda get-function --function-name "$FUNCTION_NAME" --profile "$AWS_PROFILE" --region "$AWS_REGION" &>/dev/null; then
     echo "📤 Actualizando código de la función Lambda..."
@@ -77,11 +77,42 @@ fi
 
 echo "✅ Función Lambda lista."
 
-# 🔥 [7/8] Desplegar API Gateway con Serverless Framework
+# 🔥 [7/9] Verificar si el archivo serverless.yml existe
+if [ ! -f "serverless.yml" ]; then
+    echo "❌ Error: No se encontró serverless.yml. Creándolo..."
+    
+    cat <<EOL > serverless.yml
+service: get-games-api
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: $AWS_REGION
+  profile: $AWS_PROFILE
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+        - dynamodb:Scan
+      Resource: "*"
+
+functions:
+  getGames:
+    handler: server.handler
+    events:
+      - http:
+          path: api/games
+          method: get
+          cors: true
+EOL
+
+    echo "✅ serverless.yml creado correctamente."
+fi
+
+# 🔥 [8/9] Desplegar API Gateway con Serverless Framework
 echo "🌐 Desplegando API Gateway con Serverless..."
 serverless deploy --profile "$AWS_PROFILE"
 
-# 📌 [8/8] Obtener la URL del API Gateway
+# 📌 [9/9] Obtener la URL del API Gateway
 API_URL=$(aws apigateway get-rest-apis --profile "$AWS_PROFILE" --region "$AWS_REGION" \
     --query "items[?name=='$STACK_NAME'].id" --output text)
 

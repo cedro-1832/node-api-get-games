@@ -1,0 +1,21 @@
+service: get-games-api
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  profile: serverless-deployer
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+        - dynamodb:Scan
+      Resource: "*"
+
+functions:
+  getGames:
+    handler: server.handler
+    events:
+      - http:
+          path: api/games
+          method: get
+          cors: true

@@ -1,0 +1,91 @@
+{
+  "/Users/ic-2024/Project/node-api-get-games/serverless.yml": {
+    "versionFramework": "4.6.4",
+    "servicePath": "/Users/ic-2024/Project/node-api-get-games/serverless.yml",
+    "serviceConfigFileName": "serverless.yml",
+    "service": {
+      "service": "get-games-api",
+      "provider": {
+        "name": "aws",
+        "runtime": "nodejs20.x",
+        "region": "us-east-1",
+        "profile": "serverless-deployer",
+        "iamRoleStatements": [
+          {
+            "Effect": "Allow",
+            "Action": [
+              "lambda:InvokeFunction",
+              "dynamodb:Scan"
+            ],
+            "Resource": "*"
+          }
+        ],
+        "stage": "dev",
+        "versionFunctions": true
+      },
+      "functions": {
+        "getGames": {
+          "handler": "server.handler",
+          "events": [
+            {
+              "http": {
+                "path": "api/games",
+                "method": "get",
+                "cors": true
+              }
+            }
+          ]
+        }
+      }
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "nodejs20.x",
+      "region": "us-east-1",
+      "profile": "serverless-deployer",
+      "iamRoleStatements": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "lambda:InvokeFunction",
+            "dynamodb:Scan"
+          ],
+          "Resource": "*"
+        }
+      ],
+      "stage": "dev",
+      "versionFunctions": true
+    },
+    "dashboard": {
+      "isEnabledForService": false,
+      "requiredAuthentication": false,
+      "orgFeaturesInUse": null,
+      "orgObservabilityIntegrations": null,
+      "serviceAppId": null,
+      "serviceProvider": null,
+      "instanceParameters": null
+    },
+    "error": {
+      "message": "Unrecognized option \"profile\". Run \"serverless deploy --help\" for a list of all available options.",
+      "stack": "ServerlessError3: Unrecognized option \"profile\". Run \"serverless deploy --help\" for a list of all available options.\n    at ensure_supported_command_default (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1443:2605)\n    at runFramework (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1466:1638)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async TraditionalRunner.run (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1462:28364)\n    at async route (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1508:2779)\n    at async Object.run (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1509:3668)\n    at async run2 (file:///Users/ic-2024/.serverless/releases/4.6.4/package/dist/sf-core.js:1509:4821)",
+      "code": "UNSUPPORTED_CLI_OPTIONS"
+    },
+    "serviceRawFile": "service: get-games-api\nprovider:\n  name: aws\n  runtime: nodejs20.x\n  region: us-east-1\n  profile: serverless-deployer\n  iamRoleStatements:\n    - Effect: Allow\n      Action:\n        - lambda:InvokeFunction\n        - dynamodb:Scan\n      Resource: \"*\"\n\nfunctions:\n  getGames:\n    handler: server.handler\n    events:\n      - http:\n          path: api/games\n          method: get\n          cors: true\n",
+    "command": [
+      "deploy"
+    ],
+    "options": {
+      "profile": "serverless-deployer"
+    },
+    "orgId": "dc89384e-edb5-4e81-9e94-26134aff1a0f",
+    "orgName": "ianews2025",
+    "userId": "1ytfsT1QPc1svLTf11",
+    "userName": "ianews2025",
+    "serviceProviderAwsAccountId": "249181214292",
+    "serviceProviderAwsCfStackId": null,
+    "serviceProviderAwsCfStackCreated": null,
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": null,
+    "serviceProviderAwsCfStackOutputs": null
+  }
+}

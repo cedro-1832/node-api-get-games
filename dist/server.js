@@ -1,4 +1,5 @@
 const express = require('express');
+const serverless = require('serverless-http');
 const dotenv = require('dotenv');
 dotenv.config();
 const helmet = require('helmet');
@@ -21,17 +22,9 @@ app.use('/api/games', gameRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Verificar si el puerto está libre antes de iniciarlo
-const server = app.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
-}).on('error', (err) => {
-    if (err.code === 'EADDRINUSE') {
-        console.log(`⚠️  Puerto ${PORT} en uso, intentando con otro...`);
-        PORT++;
-        app.listen(PORT, () => {
-            console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
-        });
-    } else {
-        console.error(`❌ Error al iniciar el servidor: ${err.message}`);
-    }
 });
+
+// Exportar handler para Lambda
+module.exports.handler = serverless(app);

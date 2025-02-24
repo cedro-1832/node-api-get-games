@@ -83,14 +83,15 @@ echo "✅ Función Lambda lista."
 echo "🌐 Desplegando API Gateway con Serverless..."
 AWS_PROFILE=$AWS_PROFILE serverless deploy --stage dev --region "$AWS_REGION"
 
-# 📌 [8/9] Obtener la URL del API Gateway
-API_URL=$(aws apigateway get-rest-apis --profile "$AWS_PROFILE" --region "$AWS_REGION" \
-    --query "items[?name=='$STACK_NAME'].id" --output text)
+# 📌 [8/9] Obtener la URL del API Gateway correctamente
+echo "🔍 Obteniendo la URL de la API Gateway..."
+API_ID=$(aws apigateway get-rest-apis --profile "$AWS_PROFILE" --region "$AWS_REGION" \
+    --query "items[?contains(name, '$STACK_NAME')].id" --output text)
 
-if [[ -z "$API_URL" ]]; then
-    echo "❌ Error: No se pudo obtener la URL de la API Gateway."
+if [[ -z "$API_ID" ]]; then
+    echo "❌ Error: No se pudo obtener el ID de la API Gateway."
+    exit 1
 else
-    echo "✅ API desplegada exitosamente: https://$API_URL.execute-api.$AWS_REGION.amazonaws.com/dev"
+    API_URL="https://${API_ID}.execute-api.${AWS_REGION}.amazonaws.com/dev"
+    echo "✅ API desplegada exitosamente: $API_URL"
 fi
-
-echo "🎉 Despliegue completado con éxito."

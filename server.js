@@ -17,9 +17,11 @@ app.use(express.json());
 app.use(helmet());
 app.use(cors({ origin: "*" }));
 
-app.use('/api/games', gameRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+// Asegurar que las rutas coincidan con API Gateway
+const BASE_PATH = process.env.BASE_PATH || '/dev';
+app.use(`${BASE_PATH}/api/games`, gameRoutes);
+app.use(`${BASE_PATH}/api/auth`, authRoutes);
+app.use(`${BASE_PATH}/api-docs`, swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Exportar correctamente para AWS Lambda
 module.exports.handler = serverless(app);

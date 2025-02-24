@@ -110,7 +110,8 @@ fi
 
 # 🔥 [8/9] Desplegar API Gateway con Serverless Framework
 echo "🌐 Desplegando API Gateway con Serverless..."
-serverless deploy --profile "$AWS_PROFILE"
+export AWS_PROFILE="$AWS_PROFILE"
+serverless deploy --stage dev --region "$AWS_REGION"
 
 # 📌 [9/9] Obtener la URL del API Gateway
 API_URL=$(aws apigateway get-rest-apis --profile "$AWS_PROFILE" --region "$AWS_REGION" \

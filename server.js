@@ -27,4 +27,4 @@ app.listen(PORT, () => {
 });
 
 // Exportar handler para Lambda
-module.exports.handler = serverless(app);
+exports.handler = serverless(app);

@@ -3,7 +3,6 @@ provider:
   name: aws
   runtime: nodejs20.x
   region: us-east-1
-  profile: serverless-deployer
   iamRoleStatements:
     - Effect: Allow
       Action:

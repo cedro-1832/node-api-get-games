@@ -80,43 +80,11 @@ fi
 
 echo "✅ Función Lambda lista."
 
-# 🔥 [7/9] Verificar si `serverless.yml` existe
-if [ ! -f "serverless.yml" ]; then
-    echo "❌ Error: No se encontró serverless.yml. Creándolo..."
-    
-    cat <<EOL > serverless.yml
-service: get-games-api
-provider:
-  name: aws
-  runtime: nodejs20.x
-  region: $AWS_REGION
-  profile: $AWS_PROFILE
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        - lambda:InvokeFunction
-        - dynamodb:Scan
-      Resource: "*"
-
-functions:
-  getGames:
-    handler: server.handler
-    events:
-      - http:
-          path: api/games
-          method: get
-          cors: true
-EOL
-
-    echo "✅ serverless.yml creado correctamente."
-fi
-
-# 🔥 [8/9] Desplegar API Gateway con Serverless Framework
+# 🔥 [7/9] Desplegar API Gateway con Serverless Framework
 echo "🌐 Desplegando API Gateway con Serverless..."
-export AWS_PROFILE="$AWS_PROFILE"
-serverless deploy --stage dev --region "$AWS_REGION"
+serverless deploy --stage dev --region "$AWS_REGION" --aws-profile "$AWS_PROFILE"
 
-# 📌 [9/9] Obtener la URL del API Gateway
+# 📌 [8/9] Obtener la URL del API Gateway
 API_URL=$(aws apigateway get-rest-apis --profile "$AWS_PROFILE" --region "$AWS_REGION" \
     --query "items[?name=='$STACK_NAME'].id" --output text)
 

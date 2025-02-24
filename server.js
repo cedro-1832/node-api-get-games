@@ -21,4 +21,5 @@ app.use('/api/games', gameRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-exports.handler = serverless(app);
+// Exportar correctamente para AWS Lambda
+module.exports.handler = serverless(app);
